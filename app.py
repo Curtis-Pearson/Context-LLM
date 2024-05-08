@@ -474,9 +474,6 @@ functions_dict = json.loads(program_specification["text"])["program_functions"]
 # within the function library, requiring Neo4j knowledge graph installation & integration (or alternatives).
 # Essentially adding the 'RAG' part to the LLM.
 
-# Not essential for now, get it working with the CORE FLOW (remove function library, generate on the fly).
-# For now, this is skipped.
-
 # Another optimisation would be to convert linear chaining for each function into asynchronous
 # API calls (e.g. threading) for each function specification, speeding up the process of generation.
 
