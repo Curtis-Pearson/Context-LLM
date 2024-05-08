@@ -1,0 +1,503 @@
+> Entering new MultiPromptChain chain...
+program specification: {'input': 'Create a program that gets all employee first and last names whose salary average between 2018-2020 is above £25000 in the file ‘salaries.csv’.'}
+> Finished chain.
+{
+  "program_context": "The program is intended to extract employee first and last names from a CSV file whose average salary between 2018-2020 is above £25000.",
+  "program_specification": "The program will read a CSV file, calculate the average salary of each employee between 2018-2020, and return the first and last names of employees whose average salary is above £25000.",
+  "program_functions": [
+    {
+      "function_name": "read_csv",
+      "function_context": "This function is used to read the CSV file.",
+      "function_parameters": [
+        {
+          "parameter_name": "file_path",
+          "parameter_datatype": "str",
+          "parameter_context": "The path to the CSV file."
+        }
+      ],
+      "function_processes": [
+        "Import pandas library.",
+        "Use pandas to read the CSV file.",
+        "Return the dataframe."
+      ],
+      "function_returns": [
+        {
+          "return_name": "dataframe",
+          "return_datatype": "DataFrame",
+          "return_context": "The dataframe containing the data from the CSV file."
+        }
+      ],
+      "function_testcases": [
+        {
+          "testcase_context": "The CSV file exists and is readable.",
+          "testcase_parameters": [
+            {
+              "parameter_name": "file_path",
+              "parameter_value": "'salaries.csv'",
+              "parameter_datatype": "str"
+            }
+          ],
+          "testcase_result": "DataFrame"
+        },
+        {
+          "testcase_context": "The CSV file does not exist.",
+          "testcase_parameters": [
+            {
+              "parameter_name": "file_path",
+              "parameter_value": "'nonexistent.csv'",
+              "parameter_datatype": "str"
+            }
+          ],
+          "testcase_result": "FileNotFoundError"
+        }
+      ]
+    },
+    {
+      "function_name": "get_employees_above_avg_salary",
+      "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.",
+      "function_parameters": [
+        {
+          "parameter_name": "dataframe",
+          "parameter_datatype": "DataFrame",
+          "parameter_context": "The dataframe containing the data from the CSV file."
+        }
+      ],
+      "function_processes": [
+        "Calculate the average salary of each employee between 2018-2020.",
+        "Filter the dataframe to include only employees whose average salary is above £25000.",
+        "Return the first and last names of these employees."
+      ],
+      "function_returns": [
+        {
+          "return_name": "employees",
+          "return_datatype": "DataFrame",
+          "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000."
+        }
+      ],
+      "function_testcases": [
+        {
+          "testcase_context": "The dataframe contains employees with average salaries above £25000 between 2018-2020.",
+          "testcase_parameters": [
+            {
+              "parameter_name": "dataframe",
+              "parameter_value": "DataFrame with employees' data",
+              "parameter_datatype": "DataFrame"
+            }
+          ],
+          "testcase_result": "DataFrame with employees' names"
+        },
+        {
+          "testcase_context": "The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.",
+          "testcase_parameters": [
+            {
+              "parameter_name": "dataframe",
+              "parameter_value": "DataFrame with employees' data",
+              "parameter_datatype": "DataFrame"
+            }
+          ],
+          "testcase_result": "Empty DataFrame"
+        }
+      ]
+    }
+  ],
+  "program_parameters": [
+    {
+      "parameter_name": "file_path",
+      "parameter_datatype": "str",
+      "parameter_context": "The path to the CSV file."
+    }
+  ],
+  "program_result": "The program will return the first and last names of employees whose average salary between 2018-2020 is above £25000.",
+  "program_testing": [
+    {
+      "testcase_context": "The CSV file exists and is readable, and contains employees with average salaries above £25000 between 2018-2020.",
+      "testcase_parameters": [
+        {
+          "parameter_name": "file_path",
+          "parameter_value": "'salaries.csv'",
+          "parameter_datatype": "str"
+        }
+      ],
+      "testcase_result": "DataFrame with employees' names"
+    },
+    {
+      "testcase_context": "The CSV file does not exist.",
+      "testcase_parameters": [
+        {
+          "parameter_name": "file_path",
+          "parameter_value": "'nonexistent.csv'",
+          "parameter_datatype": "str"
+        }
+      ],
+      "testcase_result": "FileNotFoundError"
+    },
+    {
+      "testcase_context": "The CSV file exists and is readable, but does not contain any employees with average salaries above £25000 between 2018-2020.",
+      "testcase_parameters": [
+        {
+          "parameter_name": "file_path",
+          "parameter_value": "'salaries.csv'",
+          "parameter_datatype": "str"
+        }
+      ],
+      "testcase_result": "Empty DataFrame"
+    }
+  ]
+}
+
+
+> Entering new MultiPromptChain chain...
+function generation: {'input': '{"function_name": "read_csv", "function_context": "This function is used to read the CSV file.", "function_parameters": [{"parameter_name": "file_path", "parameter_datatype": "str", "parameter_context": "The path to the CSV file."}], "function_processes": ["Import pandas library.", "Use pandas to read the CSV file.", "Return the dataframe."], "function_returns": [{"return_name": "dataframe", "return_datatype": "DataFrame", "return_context": "The dataframe containing the data from the CSV file."}], "function_testcases": [{"testcase_context": "The CSV file exists and is readable.", "testcase_parameters": [{"parameter_name": "file_path", "parameter_value": "\'salaries.csv\'", "parameter_datatype": "str"}], "testcase_result": "DataFrame"}, {"testcase_context": "The CSV file does not exist.", "testcase_parameters": [{"parameter_name": "file_path", "parameter_value": "\'nonexistent.csv\'", "parameter_datatype": "str"}], "testcase_result": "FileNotFoundError"}]}'}
+> Finished chain.
+```python
+import pandas as pd
+
+def read_csv(file_path: str) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to read the CSV file.
+
+    Parameters:
+    "file_path": str -> The path to the CSV file.
+
+    Returns:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+    """
+    try:
+        dataframe: pd.DataFrame = pd.read_csv(file_path)
+        return dataframe
+    except FileNotFoundError:
+        print("The file does not exist.")
+        return None
+
+### Test cases
+# The CSV file exists and is readable.
+print(read_csv('salaries.csv'))
+
+# The CSV file does not exist.
+print(read_csv('nonexistent.csv'))
+###
+```
+
+No error
+    Id    Name  Salary
+0   1  Curtis     100
+1   2    John     300
+2   3     Bob     250
+The file does not exist.
+None
+
+
+
+> Entering new MultiPromptChain chain...
+function generation: {'input': '{"function_name": "get_employees_above_avg_salary", "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.", "function_parameters": [{"parameter_name": "dataframe", "parameter_datatype": "DataFrame", "parameter_context": "The dataframe containing the data from the CSV file."}], "function_processes": ["Calculate the average salary of each employee between 2018-2020.", "Filter the dataframe to include only employees whose average salary is above £25000.", "Return the first and last names of these employees."], "function_returns": [{"return_name": "employees", "return_datatype": "DataFrame", "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000."}], "function_testcases": [{"testcase_context": "The dataframe contains employees with average salaries above £25000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees\' data", "parameter_datatype": "DataFrame"}], "testcase_result": "DataFrame with employees\' names"}, {"testcase_context": "The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees\' data", "parameter_datatype": "DataFrame"}], "testcase_result": "Empty DataFrame"}]}'}
+> Finished chain.
+```python
+import pandas as pd
+
+def get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.
+
+    Parameters:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+
+    Returns:
+    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.
+    """
+    # Calculate the average salary of each employee between 2018-2020.
+    dataframe['average_salary'] = dataframe[['2018', '2019', '2020']].mean(axis=1)
+
+    # Filter the dataframe to include only employees whose average salary is above £25000.
+    employees = dataframe[dataframe['average_salary'] > 25000][['first_name', 'last_name']]
+
+    return employees
+
+### Test cases
+# The dataframe contains employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [30000, 20000, 26000],
+    '2019': [32000, 21000, 27000],
+    '2020': [33000, 22000, 28000]
+})))
+
+# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [20000, 20000, 20000],
+    '2019': [21000, 21000, 21000],
+    '2020': [22000, 22000, 22000]
+})))
+###
+```
+
+Error in code
+ SystemError: Negative size passed to PyUnicode_New
+
+
+                Specification:
+                {"function_name": "get_employees_above_avg_salary", "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above \u00a325000.", "function_parameters": [{"parameter_name": "dataframe", "parameter_datatype": "DataFrame", "parameter_context": "The dataframe containing the data from the CSV file."}], "function_processes": ["Calculate the average salary of each employee between 2018-2020.", "Filter the dataframe to include only employees whose average salary is above \u00a325000.", "Return the first and last names of these employees."], "function_returns": [{"return_name": "employees", "return_datatype": "DataFrame", "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above \u00a325000."}], "function_testcases": [{"testcase_context": "The dataframe contains employees with average salaries above \u00a325000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees' data", "parameter_datatype": "DataFrame"}], "testcase_result": "DataFrame with employees' names"}, {"testcase_context": "The dataframe does not contain any employees with average salaries above \u00a325000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees' data", "parameter_datatype": "DataFrame"}], "testcase_result": "Empty DataFrame"}]}
+
+                Code Snippet:
+                ```python
+                import pandas as pd
+
+def get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.
+
+    Parameters:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+
+    Returns:
+    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.
+    """
+    # Calculate the average salary of each employee between 2018-2020.
+    dataframe['average_salary'] = dataframe[['2018', '2019', '2020']].mean(axis=1)
+
+    # Filter the dataframe to include only employees whose average salary is above £25000.
+    employees = dataframe[dataframe['average_salary'] > 25000][['first_name', 'last_name']]
+
+    return employees
+
+### Test cases
+# The dataframe contains employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [30000, 20000, 26000],
+    '2019': [32000, 21000, 27000],
+    '2020': [33000, 22000, 28000]
+})))
+
+# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [20000, 20000, 20000],
+    '2019': [21000, 21000, 21000],
+    '2020': [22000, 22000, 22000]
+})))
+###
+                ```
+
+                Error:
+                SystemError: Negative size passed to PyUnicode_New
+
+                
+
+
+> Entering new MultiPromptChain chain...
+code debug: {'input': 'Specification:\n{"function_name": "get_employees_above_avg_salary", "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.", "function_parameters": [{"parameter_name": "dataframe", "parameter_datatype": "DataFrame", "parameter_context": "The dataframe containing the data from the CSV file."}], "function_processes": ["Calculate the average salary of each employee between 2018-2020.", "Filter the dataframe to include only employees whose average salary is above £25000.", "Return the first and last names of these employees."], "function_returns": [{"return_name": "employees", "return_datatype": "DataFrame", "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000."}], "function_testcases": [{"testcase_context": "The dataframe contains employees with average salaries above £25000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees\' data", "parameter_datatype": "DataFrame"}], "testcase_result": "DataFrame with employees\' names"}, {"testcase_context": "The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees\' data", "parameter_datatype": "DataFrame"}], "testcase_result": "Empty DataFrame"}]}\n\nCode Snippet:\n```python\nimport pandas as pd\n\ndef get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:\n    """\n    Context:\n    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.\n\n    Parameters:\n    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.\n\n    Returns:\n    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.\n    """\n    # Calculate the average salary of each employee between 2018-2020.\n    dataframe[\'average_salary\'] = dataframe[[\'2018\', \'2019\', \'2020\']].mean(axis=1)\n\n    # Filter the dataframe to include only employees whose average salary is above £25000.\n    employees = dataframe[dataframe[\'average_salary\'] > 25000][[\'first_name\', \'last_name\']]\n\n    return employees\n\n### Test cases\n# The dataframe contains employees with average salaries above £25000 between 2018-2020.\nprint(get_employees_above_avg_salary(pd.DataFrame({\n    \'first_name\': [\'John\', \'Jane\', \'Joe\'],\n    \'last_name\': [\'Doe\', \'Doe\', \'Bloggs\'],\n    \'2018\': [30000, 20000, 26000],\n    \'2019\': [32000, 21000, 27000],\n    \'2020\': [33000, 22000, 28000]\n})))\n\n# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.\nprint(get_employees_above_avg_salary(pd.DataFrame({\n    \'first_name\': [\'John\', \'Jane\', \'Joe\'],\n    \'last_name\': [\'Doe\', \'Doe\', \'Bloggs\'],\n    \'2018\': [20000, 20000, 20000],\n    \'2019\': [21000, 21000, 21000],\n    \'2020\': [22000, 22000, 22000]\n})))\n###\n```\n\nError:\nSystemError: Negative size passed to PyUnicode_New'}
+> Finished chain.
+```python
+import pandas as pd
+
+def get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.
+
+    Parameters:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+
+    Returns:
+    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.
+    """
+    # Calculate the average salary of each employee between 2018-2020.
+    dataframe['average_salary'] = dataframe[['2018', '2019', '2020']].mean(axis=1)
+
+    # Filter the dataframe to include only employees whose average salary is above £25000.
+    employees = dataframe[dataframe['average_salary'] > 25000][['first_name', 'last_name']]
+
+    return employees
+
+### Test cases
+# The dataframe contains employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [30000, 20000, 26000],
+    '2019': [32000, 21000, 27000],
+    '2020': [33000, 22000, 28000]
+})))
+
+# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [20000, 20000, 20000],
+    '2019': [21000, 21000, 21000],
+    '2020': [22000, 22000, 22000]
+})))
+###
+```
+The error "SystemError: Negative size passed to PyUnicode_New" is not related to the code provided. It's a low-level Python error that usually indicates a problem with the Python interpreter itself, not with the code you're running. The code provided should run without any issues.
+Error in code
+ SystemError: Negative size passed to PyUnicode_New
+
+
+                Specification:
+                {"function_name": "get_employees_above_avg_salary", "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above \u00a325000.", "function_parameters": [{"parameter_name": "dataframe", "parameter_datatype": "DataFrame", "parameter_context": "The dataframe containing the data from the CSV file."}], "function_processes": ["Calculate the average salary of each employee between 2018-2020.", "Filter the dataframe to include only employees whose average salary is above \u00a325000.", "Return the first and last names of these employees."], "function_returns": [{"return_name": "employees", "return_datatype": "DataFrame", "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above \u00a325000."}], "function_testcases": [{"testcase_context": "The dataframe contains employees with average salaries above \u00a325000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees' data", "parameter_datatype": "DataFrame"}], "testcase_result": "DataFrame with employees' names"}, {"testcase_context": "The dataframe does not contain any employees with average salaries above \u00a325000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees' data", "parameter_datatype": "DataFrame"}], "testcase_result": "Empty DataFrame"}]}
+
+                Code Snippet:
+                ```python
+                import pandas as pd
+
+def get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.
+
+    Parameters:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+
+    Returns:
+    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.
+    """
+    # Calculate the average salary of each employee between 2018-2020.
+    dataframe['average_salary'] = dataframe[['2018', '2019', '2020']].mean(axis=1)
+
+    # Filter the dataframe to include only employees whose average salary is above £25000.
+    employees = dataframe[dataframe['average_salary'] > 25000][['first_name', 'last_name']]
+
+    return employees
+
+### Test cases
+# The dataframe contains employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [30000, 20000, 26000],
+    '2019': [32000, 21000, 27000],
+    '2020': [33000, 22000, 28000]
+})))
+
+# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [20000, 20000, 20000],
+    '2019': [21000, 21000, 21000],
+    '2020': [22000, 22000, 22000]
+})))
+###
+                ```
+
+                Error:
+                SystemError: Negative size passed to PyUnicode_New
+
+                
+
+
+> Entering new MultiPromptChain chain...
+code debug: {'input': 'Specification:\n{"function_name": "get_employees_above_avg_salary", "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.", "function_parameters": [{"parameter_name": "dataframe", "parameter_datatype": "DataFrame", "parameter_context": "The dataframe containing the data from the CSV file."}], "function_processes": ["Calculate the average salary of each employee between 2018-2020.", "Filter the dataframe to include only employees whose average salary is above £25000.", "Return the first and last names of these employees."], "function_returns": [{"return_name": "employees", "return_datatype": "DataFrame", "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000."}], "function_testcases": [{"testcase_context": "The dataframe contains employees with average salaries above £25000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees\' data", "parameter_datatype": "DataFrame"}], "testcase_result": "DataFrame with employees\' names"}, {"testcase_context": "The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees\' data", "parameter_datatype": "DataFrame"}], "testcase_result": "Empty DataFrame"}]}\n\nCode Snippet:\n```python\nimport pandas as pd\n\ndef get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:\n    """\n    Context:\n    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.\n\n    Parameters:\n    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.\n\n    Returns:\n    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.\n    """\n    # Calculate the average salary of each employee between 2018-2020.\n    dataframe[\'average_salary\'] = dataframe[[\'2018\', \'2019\', \'2020\']].mean(axis=1)\n\n    # Filter the dataframe to include only employees whose average salary is above £25000.\n    employees = dataframe[dataframe[\'average_salary\'] > 25000][[\'first_name\', \'last_name\']]\n\n    return employees\n\n### Test cases\n# The dataframe contains employees with average salaries above £25000 between 2018-2020.\nprint(get_employees_above_avg_salary(pd.DataFrame({\n    \'first_name\': [\'John\', \'Jane\', \'Joe\'],\n    \'last_name\': [\'Doe\', \'Doe\', \'Bloggs\'],\n    \'2018\': [30000, 20000, 26000],\n    \'2019\': [32000, 21000, 27000],\n    \'2020\': [33000, 22000, 28000]\n})))\n\n# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.\nprint(get_employees_above_avg_salary(pd.DataFrame({\n    \'first_name\': [\'John\', \'Jane\', \'Joe\'],\n    \'last_name\': [\'Doe\', \'Doe\', \'Bloggs\'],\n    \'2018\': [20000, 20000, 20000],\n    \'2019\': [21000, 21000, 21000],\n    \'2020\': [22000, 22000, 22000]\n})))\n###\n```\n\nError:\nSystemError: Negative size passed to PyUnicode_New'}
+> Finished chain.
+```python
+import pandas as pd
+
+def get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.
+
+    Parameters:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+
+    Returns:
+    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.
+    """
+    # Calculate the average salary of each employee between 2018-2020.
+    dataframe['average_salary'] = dataframe[['2018', '2019', '2020']].mean(axis=1)
+
+    # Filter the dataframe to include only employees whose average salary is above £25000.
+    employees = dataframe[dataframe['average_salary'] > 25000][['first_name', 'last_name']]
+
+    return employees
+
+### Test cases
+# The dataframe contains employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [30000, 20000, 26000],
+    '2019': [32000, 21000, 27000],
+    '2020': [33000, 22000, 28000]
+})))
+
+# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [20000, 20000, 20000],
+    '2019': [21000, 21000, 21000],
+    '2020': [22000, 22000, 22000]
+})))
+###
+```
+The error "SystemError: Negative size passed to PyUnicode_New" is not related to the code provided. It's a low-level Python error that usually indicates a problem with the Python interpreter itself, not with the code you're running. The code provided should run without any issues.
+Error in code
+ SystemError: Negative size passed to PyUnicode_New
+
+
+                Specification:
+                {"function_name": "get_employees_above_avg_salary", "function_context": "This function is used to get the first and last names of employees whose average salary between 2018-2020 is above \u00a325000.", "function_parameters": [{"parameter_name": "dataframe", "parameter_datatype": "DataFrame", "parameter_context": "The dataframe containing the data from the CSV file."}], "function_processes": ["Calculate the average salary of each employee between 2018-2020.", "Filter the dataframe to include only employees whose average salary is above \u00a325000.", "Return the first and last names of these employees."], "function_returns": [{"return_name": "employees", "return_datatype": "DataFrame", "return_context": "The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above \u00a325000."}], "function_testcases": [{"testcase_context": "The dataframe contains employees with average salaries above \u00a325000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees' data", "parameter_datatype": "DataFrame"}], "testcase_result": "DataFrame with employees' names"}, {"testcase_context": "The dataframe does not contain any employees with average salaries above \u00a325000 between 2018-2020.", "testcase_parameters": [{"parameter_name": "dataframe", "parameter_value": "DataFrame with employees' data", "parameter_datatype": "DataFrame"}], "testcase_result": "Empty DataFrame"}]}
+
+                Code Snippet:
+                ```python
+                import pandas as pd
+
+def get_employees_above_avg_salary(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Context:
+    This function is used to get the first and last names of employees whose average salary between 2018-2020 is above £25000.
+
+    Parameters:
+    "dataframe": pd.DataFrame -> The dataframe containing the data from the CSV file.
+
+    Returns:
+    "employees": pd.DataFrame -> The dataframe containing the first and last names of employees whose average salary between 2018-2020 is above £25000.
+    """
+    # Calculate the average salary of each employee between 2018-2020.
+    dataframe['average_salary'] = dataframe[['2018', '2019', '2020']].mean(axis=1)
+
+    # Filter the dataframe to include only employees whose average salary is above £25000.
+    employees = dataframe[dataframe['average_salary'] > 25000][['first_name', 'last_name']]
+
+    return employees
+
+### Test cases
+# The dataframe contains employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [30000, 20000, 26000],
+    '2019': [32000, 21000, 27000],
+    '2020': [33000, 22000, 28000]
+})))
+
+# The dataframe does not contain any employees with average salaries above £25000 between 2018-2020.
+print(get_employees_above_avg_salary(pd.DataFrame({
+    'first_name': ['John', 'Jane', 'Joe'],
+    'last_name': ['Doe', 'Doe', 'Bloggs'],
+    '2018': [20000, 20000, 20000],
+    '2019': [21000, 21000, 21000],
+    '2020': [22000, 22000, 22000]
+})))
+###
+                ```
+
+                Error:
+                SystemError: Negative size passed to PyUnicode_New
+
+                
+
+
+> Entering new MultiPromptChain chain...
+
+Process finished with exit code -1
